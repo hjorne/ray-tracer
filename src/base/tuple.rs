@@ -1,14 +1,19 @@
 use super::float::*;
 use std::ops::{Add, Div, Mul, Neg, Sub};
 
-pub const ZERO: Tuple = Tuple {x: 0., y: 0., z: 0., w: 0.}; 
+pub const ZERO: Tuple = Tuple {
+    x: 0.,
+    y: 0.,
+    z: 0.,
+    w: 0.,
+};
 
 #[derive(Debug)]
 pub struct Tuple {
-    x: f64,
-    y: f64,
-    z: f64,
-    w: f64,
+    pub x: f64,
+    pub y: f64,
+    pub z: f64,
+    pub w: f64,
 }
 
 impl Default for Tuple {
