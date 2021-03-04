@@ -33,7 +33,10 @@ impl Simulation {
     }
 
     fn print(&self) {
-        println!("Position: ({}, {}, {})", self.projectile.r.x, self.projectile.r.y, self.projectile.r.z);
+        println!(
+            "Position: ({}, {}, {})",
+            self.projectile.r.x, self.projectile.r.y, self.projectile.r.z
+        );
     }
 
     pub fn run(&mut self) {

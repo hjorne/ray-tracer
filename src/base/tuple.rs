@@ -1,14 +1,8 @@
 use super::float::*;
-use std::ops::{Add, Div, Mul, Neg, Sub};
+use crate::impl_eq;
+use derive_more::{Add, Constructor, Div, Mul, Neg, Sub};
 
-pub const ZERO: Tuple = Tuple {
-    x: 0.,
-    y: 0.,
-    z: 0.,
-    w: 0.,
-};
-
-#[derive(Debug)]
+#[derive(Debug, Copy, Clone, Default, Add, Sub, Mul, Div, Neg, Constructor)]
 pub struct Tuple {
     pub x: f64,
     pub y: f64,
@@ -16,96 +10,9 @@ pub struct Tuple {
     pub w: f64,
 }
 
-impl Default for Tuple {
-    fn default() -> Self {
-        ZERO
-    }
-}
-
-impl Clone for Tuple {
-    fn clone(&self) -> Self {
-        *self
-    }
-}
-
-impl Copy for Tuple {}
-
-impl PartialEq for Tuple {
-    fn eq(&self, other: &Self) -> bool {
-        self.x.xeq(other.x) && self.y.xeq(other.y) && self.z.xeq(other.z) && self.w.xeq(other.w)
-    }
-}
-
-impl Eq for Tuple {}
-
-impl Add for Tuple {
-    type Output = Self;
-
-    fn add(self, rhs: Self) -> Self {
-        Self {
-            x: self.x + rhs.x,
-            y: self.y + rhs.y,
-            z: self.z + rhs.z,
-            w: self.w + rhs.w,
-        }
-    }
-}
-
-impl Sub for Tuple {
-    type Output = Self;
-
-    fn sub(self, rhs: Self) -> Self {
-        Self {
-            x: self.x - rhs.x,
-            y: self.y - rhs.y,
-            z: self.z - rhs.z,
-            w: self.w - rhs.w,
-        }
-    }
-}
-
-impl Neg for Tuple {
-    type Output = Self;
-
-    fn neg(self) -> Self {
-        Tuple::new(-self.x, -self.y, -self.z, -self.w)
-    }
-}
-
-impl Mul<f64> for Tuple {
-    type Output = Self;
-
-    fn mul(self, c: f64) -> Self {
-        Tuple::new(c * self.x, c * self.y, c * self.z, c * self.w)
-    }
-}
-
-impl Mul<Tuple> for f64 {
-    type Output = Tuple;
-
-    fn mul(self, tuple: Tuple) -> Tuple {
-        Tuple::new(
-            self * tuple.x,
-            self * tuple.y,
-            self * tuple.z,
-            self * tuple.w,
-        )
-    }
-}
-
-impl Div<f64> for Tuple {
-    type Output = Tuple;
-
-    fn div(self, c: f64) -> Self {
-        Tuple::new(self.x / c, self.y / c, self.z / c, self.w / c)
-    }
-}
+impl_eq!(Tuple; x, y, z, w);
 
 impl Tuple {
-    pub fn new(x: f64, y: f64, z: f64, w: f64) -> Self {
-        Tuple { x, y, z, w }
-    }
-
     pub fn vec(x: f64, y: f64, z: f64) -> Self {
         Tuple::new(x, y, z, 0.0)
     }
@@ -199,7 +106,7 @@ mod tests {
         assert_eq!(v1 - v2, Tuple::vec(-2., -4., -6.));
 
         let v = Tuple::vec(1., -2., 3.);
-        assert_eq!(ZERO - v, Tuple::vec(-1., 2., -3.));
+        assert_eq!(Tuple::new(0., 0., 0., 0.) - v, Tuple::vec(-1., 2., -3.));
     }
 
     #[test]
